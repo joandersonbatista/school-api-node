@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../src/useCases/students/readStudent/index.ts"],"names":[],"mappings":";;;AAAA,8FAA2F;AAC3F,+FAA4F;AAC5F,+CAA4C;AAE5C,MAAM,qBAAqB,GAAG,IAAI,+CAAsB,EAAE,CAAC;AAC3D,MAAM,WAAW,GAAG,IAAI,yBAAW,CAAC,qBAAqB,CAAC,CAAC;AAC3D,MAAM,qBAAqB,GAAG,IAAI,6CAAqB,CAAC,WAAW,CAAC,CAAC;AAE5D,sDAAqB"}
