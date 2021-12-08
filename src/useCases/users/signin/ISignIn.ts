@@ -1,7 +1,14 @@
 import { ISignInDTO } from "./ISignInDTO";
 
-interface ISignIn {
-  execute(user: ISignInDTO): Promise<string>;
+interface IUserLogin {
+  token: string;
+  email: string;
+  id: number;
+  name: string;
 }
 
-export { ISignIn };
+interface ISignIn {
+  execute(user: ISignInDTO): Promise<IUserLogin>;
+}
+
+export { ISignIn, IUserLogin };
