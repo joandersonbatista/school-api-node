@@ -9,8 +9,8 @@ class SignInController {
     async token(req, res) {
         const user = req.body;
         try {
-            const token = await this.signIn.execute(user);
-            return res.status(200).send({ token });
+            const userLogin = await this.signIn.execute(user);
+            return res.status(200).send(userLogin);
         }
         catch (error) {
             if (error instanceof Error)
