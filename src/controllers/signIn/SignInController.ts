@@ -9,9 +9,9 @@ class SignInController {
     const user: ISignInDTO = req.body;
 
     try {
-      const userLogin = await this.signIn.execute(user);
+      const token = await this.signIn.execute(user);
 
-      return res.status(200).send(userLogin);
+      return res.status(200).send({ token });
     } catch (error) {
       if (error instanceof Error)
         return res.status(400).json({ message: error.message });
