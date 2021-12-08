@@ -19,11 +19,9 @@ class SignIn {
         if (existsUser === null) {
             throw new Error("User does not exist");
         }
-        const { password_hash } = existsUser;
+        const { password_hash, id, email } = existsUser;
         const passwordHash = await bcryptjs_1.default.compare(user.password, password_hash);
         if (passwordHash) {
-            const { email } = user;
-            const id = existsUser.id;
             const token = (0, jsonwebtoken_1.sign)({ id, email }, process.env.TOKEN_SECRET, {
                 expiresIn: process.env.TOKEN_EXPIRATION,
             });
