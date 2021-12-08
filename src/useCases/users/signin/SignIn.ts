@@ -24,8 +24,6 @@ class SignIn implements ISignIn {
     const passwordHash = await bcryptjs.compare(user.password, password_hash);
 
     if (passwordHash) {
-      const { email } = user;
-      const id = existsUser.id;
 
       const token = sign({ id, email }, process.env.TOKEN_SECRET!, {
         expiresIn: process.env.TOKEN_EXPIRATION,
