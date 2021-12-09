@@ -1,6 +1,5 @@
-import bcryptjs from "bcryptjs";
-
 import { Model, DataTypes } from "sequelize";
+
 import { ConnectionDB } from "../../database/ConnectionDb";
 import { ICreateUserAttributes } from "../ICreateUserAttributes";
 import { IUsersAttributes } from "../IUserAttributes";
@@ -23,13 +22,9 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    password_hash: {
+    password: {
       type: DataTypes.STRING,
       defaultValue: "",
-      allowNull: false,
-    },
-    password: {
-      type: DataTypes.VIRTUAL,
       allowNull: false,
     },
     created_at: {
@@ -48,11 +43,11 @@ User.init(
   },
 );
 
-User.addHook("beforeSave", async (user) => {
+/* User.addHook("beforeSave", async (user) => {
   if (user.getDataValue("password")) {
     const passwordHash = await bcryptjs.hash(user.getDataValue("password"), 8);
     user.set("password_hash", passwordHash);
   }
-});
+}); */
 
 export { User };

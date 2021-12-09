@@ -1,3 +1,5 @@
+import bcryptjs from "bcryptjs";
+
 import { ICreateUser } from "./ICreateUser";
 import { ICreateUserDTO } from "./ICreateUserDTO";
 import { IUserRepository } from "../../../repositories/IUserRepository";
@@ -19,6 +21,11 @@ class CreateUser implements ICreateUser {
     if (existsEmail !== null) {
       throw new Error("E-mail already exists");
     }
+
+    const passwordHash = await bcryptjs.hash(user.password, 8);
+    user.password = passwordHash;
+
+    console.log(user.password);
 
     await this.createUserRepository.save(user);
   }

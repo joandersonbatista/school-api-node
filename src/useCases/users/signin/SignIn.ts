@@ -19,9 +19,9 @@ class SignIn implements ISignIn {
       throw new Error("User does not exist");
     }
 
-    const { password_hash, email, id, name } = existsUser;
+    const { password, email, id, name } = existsUser;
 
-    const passwordHash = await bcryptjs.compare(user.password, password_hash);
+    const passwordHash = await bcryptjs.compare(user.password, password);
 
     if (passwordHash) {
 

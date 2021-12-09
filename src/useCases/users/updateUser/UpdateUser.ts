@@ -1,8 +1,9 @@
+import bcryptjs from "bcryptjs";
+
 import { IUpdateUser } from "./IUpdateUser";
 import { IUpdateUserDTO } from "./IUpdateUserDTO";
 import { IUserRepository } from "../../../repositories/IUserRepository";
 import { IValidationsUserUpdate } from "./validations/IValidationsUserUpdate";
-import { IUsersAttributes } from "../../../models/IUserAttributes";
 
 class UpdateUser implements IUpdateUser {
   constructor(
@@ -26,7 +27,11 @@ class UpdateUser implements IUpdateUser {
     );
 
     if (existsEmail !== null && existsEmail.id === user.id) {
-      await this.updateUserRepository.update(user as IUsersAttributes, user.id);
+      if (user.password !== undefined) {
+        const passwordHash = await bcryptjs.hash(user.password, 8);
+        user.password = passwordHash;
+      }
+      await this.updateUserRepository.update(user, user.id);
       return;
     }
 
