@@ -1,6 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 
-import { ConnectionDB } from "../../database/ConnectionDb";
+import { connectionMySql } from "../../database/ConnectionMySql";
 import { ICreateUserAttributes } from "../ICreateUserAttributes";
 import { IUsersAttributes } from "../IUserAttributes";
 
@@ -39,15 +39,8 @@ User.init(
     },
   },
   {
-    sequelize: ConnectionDB.connection,
+    sequelize: connectionMySql.connection,
   },
 );
-
-/* User.addHook("beforeSave", async (user) => {
-  if (user.getDataValue("password")) {
-    const passwordHash = await bcryptjs.hash(user.getDataValue("password"), 8);
-    user.set("password_hash", passwordHash);
-  }
-}); */
 
 export { User };

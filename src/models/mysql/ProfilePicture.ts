@@ -1,6 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 
-import { ConnectionDB } from "../../database/ConnectionDb";
+import { connectionMySql } from "../../database/ConnectionMySql";
 import { ICreateProfilePictureAttributes } from "../ICreateIProfilePictureAttributes";
 import { IProfilePictureAttributes } from "../IProfilePictureAttributes";
 
@@ -57,7 +57,7 @@ ProfilePicture.init(
     },
   },
   {
-    sequelize: ConnectionDB.connection,
+    sequelize: connectionMySql.connection,
   },
 );
 

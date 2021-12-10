@@ -1,6 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 
-import { ConnectionDB } from "../../database/ConnectionDb";
+import { connectionMySql } from "../../database/ConnectionMySql";
 import { ICreateStudentAtributes } from "../ICreateStudentAttributes";
 import { IStudentsAttributes } from "../IStudentsAttributes";
 import { ProfilePicture } from "./ProfilePicture";
@@ -50,7 +50,7 @@ Student.init(
     },
   },
   {
-    sequelize: ConnectionDB.connection,
+    sequelize: connectionMySql.connection,
   },
 );
 
