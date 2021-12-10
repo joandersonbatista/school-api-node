@@ -7,21 +7,17 @@ import { IStudentUpdateValidations } from "./validations/IStudentUpdateValidatio
 
 class UpdateStudent implements IUpdateStudent {
   constructor(
-    private updateStudentRepository: IStudentRepository,
+    private studentRepository: IStudentRepository,
     private studentUpdateValidations: IStudentUpdateValidations,
     private createProfilePicture: ICreateProfilePicture,
-    private updateProfilePicture: IUpdateProfilePicture
+    private updateProfilePicture: IUpdateProfilePicture,
   ) {}
 
   async execute(
     student: IUpdateStudentDTO,
     picture?: Express.Multer.File,
   ): Promise<void> {
-    if (isNaN(student.id)) {
-      throw new Error("Invalid id");
-    }
-
-    const existsId = await this.updateStudentRepository.existsId(student.id);
+    const existsId = await this.studentRepository.existsId(student.id);
 
     if (existsId === null) {
       throw new Error("Non-existent user");
@@ -34,45 +30,45 @@ class UpdateStudent implements IUpdateStudent {
     this.studentUpdateValidations.heightValidation(student);
     this.studentUpdateValidations.weightValidation(student);
 
-    const existsEmail = await this.updateStudentRepository.existsEmail(
+    const existsEmail = await this.studentRepository.existsEmail(
       student.email || "",
     );
 
-    const [studentHaveProfilePicture] = await this.updateStudentRepository.read(
+    const [studentHaveProfilePicture] = await this.studentRepository.read(
       student.id,
     );
-    
+
     if (existsEmail !== null && existsEmail.id === student.id) {
       if (picture === undefined) {
-        await this.updateStudentRepository.update(student, student.id);
+        await this.studentRepository.update(student, student.id);
         return;
       }
 
       if (studentHaveProfilePicture.profile_picture === null) {
         await this.createProfilePicture.create(picture, student.id);
-        await this.updateStudentRepository.update(student, student.id);
+        await this.studentRepository.update(student, student.id);
         return;
       }
 
-      await this.updateProfilePicture.execute(picture, student.id)
-      await this.updateStudentRepository.update(student, student.id);
+      await this.updateProfilePicture.execute(picture, student.id);
+      await this.studentRepository.update(student, student.id);
       return;
     }
 
     if (existsEmail === null) {
       if (picture === undefined) {
-        await this.updateStudentRepository.update(student, student.id);
+        await this.studentRepository.update(student, student.id);
         return;
       }
 
       if (studentHaveProfilePicture.profile_picture === null) {
         await this.createProfilePicture.create(picture, student.id);
-        await this.updateStudentRepository.update(student, student.id);
+        await this.studentRepository.update(student, student.id);
         return;
       }
 
-      await this.updateProfilePicture.execute(picture, student.id)
-      await this.updateStudentRepository.update(student, student.id);
+      await this.updateProfilePicture.execute(picture, student.id);
+      await this.studentRepository.update(student, student.id);
       return;
     }
 

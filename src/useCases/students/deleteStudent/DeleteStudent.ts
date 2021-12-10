@@ -5,16 +5,13 @@ import { IDeleteStudent } from "./IDeleteStudent";
 
 class DeleteStudent implements IDeleteStudent {
   constructor(
-    private deleteStudentRepository: IStudentRepository,
+    private studentRepository: IStudentRepository,
     private deleteProfilePicture: IDeleteProfilePicture,
   ) {}
 
   async execute(student: IDeleteStudentDTO): Promise<void> {
-    if (isNaN(student.student_id)) {
-      throw new Error("Invalid id");
-    }
 
-    const existsId = await this.deleteStudentRepository.existsId(
+    const existsId = await this.studentRepository.existsId(
       student.student_id,
     );
 
@@ -24,7 +21,7 @@ class DeleteStudent implements IDeleteStudent {
 
     await this.deleteProfilePicture.execute(student);
 
-    await this.deleteStudentRepository.delete(student.student_id);
+    await this.studentRepository.delete(student.student_id);
   }
 }
 

@@ -1,5 +1,5 @@
 interface IDeletedUserDTO {
-  id: number;
+  id: number | string;
 }
 
 export { IDeletedUserDTO };

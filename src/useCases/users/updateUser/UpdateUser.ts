@@ -7,12 +7,12 @@ import { IValidationsUserUpdate } from "./validations/IValidationsUserUpdate";
 
 class UpdateUser implements IUpdateUser {
   constructor(
-    private updateUserRepository: IUserRepository,
+    private userRepository: IUserRepository,
     private validationsUpdateUser: IValidationsUserUpdate,
   ) {}
 
   async execute(user: IUpdateUserDTO): Promise<void> {
-    const existsId = await this.updateUserRepository.existsId(user.id);
+    const existsId = await this.userRepository.existsId(user.id);
 
     if (existsId === null) {
       throw new Error("Invalid token");
@@ -22,7 +22,7 @@ class UpdateUser implements IUpdateUser {
     this.validationsUpdateUser.validationName(user);
     this.validationsUpdateUser.validationPassword(user);
 
-    const existsEmail = await this.updateUserRepository.existsEmail(
+    const existsEmail = await this.userRepository.existsEmail(
       user.email || "",
     );
 
@@ -31,7 +31,18 @@ class UpdateUser implements IUpdateUser {
         const passwordHash = await bcryptjs.hash(user.password, 8);
         user.password = passwordHash;
       }
-      await this.updateUserRepository.update(user, user.id);
+
+      await this.userRepository.update(user, user.id);
+      return;
+    }
+
+    if (existsEmail === null) {
+      if (user.password !== undefined) {
+        const passwordHash = await bcryptjs.hash(user.password, 8);
+        user.password = passwordHash;
+      }
+      
+      await this.userRepository.update(user, user.id);
       return;
     }
 

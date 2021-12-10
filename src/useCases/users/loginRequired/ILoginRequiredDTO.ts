@@ -1,5 +1,5 @@
 interface ILoginRequiredDTO {
-  id: number;
+  id: number | string;
   email: string;
 }
 

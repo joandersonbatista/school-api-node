@@ -7,7 +7,7 @@ import { IUserCreateValidations } from "./validations/IUserCreateValidations";
 
 class CreateUser implements ICreateUser {
   constructor(
-    private createUserRepository: IUserRepository,
+    private userRepository: IUserRepository,
     private userCreateValidations: IUserCreateValidations,
   ) {}
 
@@ -16,7 +16,7 @@ class CreateUser implements ICreateUser {
     this.userCreateValidations.validationName(user);
     this.userCreateValidations.validationPassword(user);
 
-    const existsEmail = await this.createUserRepository.existsEmail(user.email);
+    const existsEmail = await this.userRepository.existsEmail(user.email);
 
     if (existsEmail !== null) {
       throw new Error("E-mail already exists");
@@ -27,7 +27,7 @@ class CreateUser implements ICreateUser {
 
     console.log(user.password);
 
-    await this.createUserRepository.save(user);
+    await this.userRepository.save(user);
   }
 }
 

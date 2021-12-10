@@ -3,7 +3,7 @@ import { ISignInDTO } from "./ISignInDTO";
 interface IUserLogin {
   token: string;
   email: string;
-  id: number;
+  id: number | string;
   name: string;
 }
 

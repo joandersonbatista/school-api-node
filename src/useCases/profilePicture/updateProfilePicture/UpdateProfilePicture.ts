@@ -11,7 +11,7 @@ class UpdateProfilePicture implements IUpdateProfilePicture {
 
   async execute(
     picture: Express.Multer.File,
-    student_id: number,
+    student_id: number | string,
   ): Promise<void> {
     const oldProfilePicture =
       await this.profilePictureRepository.existsProfilePicture(student_id);

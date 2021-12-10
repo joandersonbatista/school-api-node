@@ -5,13 +5,13 @@ import { ICreateProfilePictureDTO } from "./CreateProfilePictureDTO";
 
 class CreateProfilePicture implements ICreateProfilePicture {
   constructor(
-    private storageServiceProfilePicture: IStorageServiceProfilePicture,
     private profilePictureRepository: IProfilePictureRepository,
+    private storageServiceProfilePicture: IStorageServiceProfilePicture,
   ) {}
 
   async create(
     picture: Express.Multer.File,
-    student_id: number,
+    student_id: number | string,
   ): Promise<void> {
     await this.storageServiceProfilePicture.saveFile(picture.filename);
 

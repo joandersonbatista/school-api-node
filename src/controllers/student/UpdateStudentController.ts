@@ -17,9 +17,7 @@ class UpdateStudentController {
       if (error) return res.status(400).json({ message: error.field });
 
       const student: IUpdateStudentDTO = JSON.parse(JSON.stringify(req.body));
-      console.log(req.body)
-      student.id = parseFloat(req.params.id);
-
+      student.id = req.params.id;
       try {
         if (req.file === undefined) {
           await this.updateStudent.execute(student, req.file!);
@@ -36,8 +34,6 @@ class UpdateStudentController {
         return res.status(400).json({ message: "Unexpected error." });
       }
     });
-
-    const id = req.params.id;
   }
 }
 

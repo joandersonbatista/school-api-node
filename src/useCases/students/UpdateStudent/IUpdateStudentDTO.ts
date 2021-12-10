@@ -1,5 +1,5 @@
 interface IUpdateStudentDTO {
-  id: number;
+  id: number | string;
   name?: string;
   last_name?: string;
   email?: string;

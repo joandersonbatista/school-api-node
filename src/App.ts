@@ -1,11 +1,15 @@
 import express from "express";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 import { Middlewares } from "./Middlewares";
 import { IMiddlewaresProtocol } from "./IMiddlewaresProtocol";
 import { Router } from "./Router";
 import { IRoutesProtocol } from "./IRoutesProtocol";
 import { IConnectionDbProtocol } from "./database/IConnectionDbProtocol";
-import { ConnectionDB } from "./database/ConnectionDb";
+import { connectionMySql } from "./database/ConnectionMySql";
+import { connectionMongoDB } from "./database/ConnectionMongoDB";
 
 class App {
   app: express.Application;
@@ -18,7 +22,8 @@ class App {
     this.app = express();
     this.middlewares = new Middlewares(this.app);
     this.routes = new Router(this.app);
-    this.connectionDB = ConnectionDB;
+    this.connectionDB = connectionMongoDB;
+    // this.connectionDB = connectionMySql;
   }
 }
 

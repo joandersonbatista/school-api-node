@@ -5,7 +5,6 @@ interface ICreateStudentDTO {
   age?: number;
   weight?: number;
   height?: number;
-  profile_picture?: object;
 }
 
 export { ICreateStudentDTO };

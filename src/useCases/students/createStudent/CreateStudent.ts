@@ -5,7 +5,7 @@ import { IStudentCreateValidations } from "./validations/IStudentCreateValidatio
 
 class CreateStudent implements ICreateStudent {
   constructor(
-    private createStudentRepository: IStudentRepository,
+    private studentRepository: IStudentRepository,
     private studentCreateValidations: IStudentCreateValidations,
   ) {}
 
@@ -17,12 +17,12 @@ class CreateStudent implements ICreateStudent {
     this.studentCreateValidations.heightValidation(student);
     this.studentCreateValidations.weightValidation(student);
 
-    const existsEmail = await this.createStudentRepository.existsEmail(
+    const existsEmail = await this.studentRepository.existsEmail(
       student.email,
     );
 
     if (existsEmail === null) {
-      await this.createStudentRepository.save(student);
+      await this.studentRepository.save(student);
       return;
     }
     throw new Error("E-mail already exists");

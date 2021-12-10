@@ -6,7 +6,7 @@ class DeleteStudentController {
   constructor(private deleteStudent: IDeleteStudent) {}
 
   async delete(req: Request, res: Response): Promise<Response> {
-    const deleteStudent: IDeleteStudentDTO = { student_id: parseFloat(req.params.id) };
+    const deleteStudent: IDeleteStudentDTO = { student_id: req.params.id };
 
     try {
       await this.deleteStudent.execute(deleteStudent);

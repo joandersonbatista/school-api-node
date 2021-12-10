@@ -3,16 +3,16 @@ import { IDeletedUserDTO } from "./IDeleteUserDTO";
 import { IUserRepository } from "../../../repositories/IUserRepository";
 
 class DeleteUser implements IDeleteUser {
-  constructor(private deleteUserRepository: IUserRepository) {}
+  constructor(private userRepository: IUserRepository) {}
 
   async execute(user: IDeletedUserDTO): Promise<void> {
-    const existsId = await this.deleteUserRepository.existsId(user.id);
+    const existsId = await this.userRepository.existsId(user.id);
 
     if (existsId === null) {
       throw new Error("invalid token");
     }
 
-    await this.deleteUserRepository.delete(user.id);
+    await this.userRepository.delete(user.id);
   }
 }
 

@@ -1,5 +1,5 @@
 interface IReadUserDTO {
-  id: number
+  id: number | string
 };
 
 export { IReadUserDTO };

@@ -1,5 +1,5 @@
 interface IDeleteProfilePictureDTO {
-  student_id: number;
+  student_id: number | string;
 }
 
 export { IDeleteProfilePictureDTO };

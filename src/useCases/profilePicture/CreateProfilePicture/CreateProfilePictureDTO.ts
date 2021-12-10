@@ -5,7 +5,7 @@ interface ICreateProfilePictureDTO {
   filename: string;
   size: number;
   url: string;
-  student_id: number;
+  student_id: number | string;
 }
 
 export { ICreateProfilePictureDTO };

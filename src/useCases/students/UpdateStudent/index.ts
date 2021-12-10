@@ -1,14 +1,17 @@
 import { UpdateStudentController } from "../../../controllers/student/UpdateStudentController";
+import { MongoDbStudentRepository } from "../../../repositories/mongoDb/MongoDbStudentRepository";
 import { MysqlStudentRepository } from "../../../repositories/mysql/MysqlStudentRepository";
 import { createProfilePicture } from "../../profilePicture/CreateProfilePicture";
 import { updateProfilePicture } from "../../profilePicture/updateProfilePicture";
 import { UpdateStudent } from "./UpdateStudent";
 import { StudentUpdateValidations } from "./validations/StudentUpdateValidations";
 
-const updateStudentRepository = new MysqlStudentRepository();
+const mysqlStudentRepository = new MysqlStudentRepository();
+const mongoDbStudentRepository = new MongoDbStudentRepository();
 const studentUpdateValidations = new StudentUpdateValidations();
 const updateStudent = new UpdateStudent(
-  updateStudentRepository,
+  // mysqlStudentRepository,
+  mongoDbStudentRepository,
   studentUpdateValidations,
   createProfilePicture,
   updateProfilePicture

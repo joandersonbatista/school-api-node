@@ -4,16 +4,16 @@ import { IUsersAttributes } from "../../../models/IUserAttributes";
 import { IUserRepository } from "../../../repositories/IUserRepository";
 
 class ReadUser implements IReadUser {
-  constructor(public readUserRepository: IUserRepository) {}
+  constructor(private userRepository: IUserRepository) {}
 
   async execute(user: IReadUserDTO): Promise<IUsersAttributes[]> {
-    const existsId = await this.readUserRepository.existsId(user.id);
+    const existsId = await this.userRepository.existsId(user.id);
 
     if (existsId === null) {
       throw new Error("invalid token");
     }
 
-    return await this.readUserRepository.read(user.id);
+    return await this.userRepository.read(user.id);
   }
 }
 

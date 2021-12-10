@@ -6,14 +6,14 @@ import { ISignIn, IUserLogin } from "./ISignIn";
 import { ISignInDTO } from "./ISignInDTO";
 
 class SignIn implements ISignIn {
-  constructor(private signInRepository: IUserRepository) {}
+  constructor(private userRepository: IUserRepository) {}
 
   async execute(user: ISignInDTO): Promise<IUserLogin> {
     if (user.email === undefined || user.password === undefined) {
       throw new Error("Invalid credentials");
     }
 
-    const existsUser = await this.signInRepository.existsEmail(user.email);
+    const existsUser = await this.userRepository.existsEmail(user.email);
 
     if (existsUser === null) {
       throw new Error("User does not exist");
