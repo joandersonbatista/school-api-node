@@ -4,12 +4,12 @@ import { IUpdateUserDTO } from "../useCases/users/updateUser/IUpdateUserDTO";
 
 interface IUserRepository {
   save(user: ICreateUserDTO): Promise<void>;
-  update(user: IUpdateUserDTO, id: number): Promise<void>;
-  existsUserToken(id: number, email: string): Promise<IUsersAttributes | null>;
+  update(user: IUpdateUserDTO, id: number | string): Promise<void>;
+  existsUserToken(id: number | string, email: string): Promise<IUsersAttributes | null>;
   existsEmail(email: string): Promise<IUsersAttributes | null>;
-  delete(id: number): Promise<void>;
-  existsId(id: number): Promise<IUsersAttributes | null>;
-  read(id: number): Promise<IUsersAttributes[]>;
+  delete(id: number | string): Promise<void>;
+  existsId(id: number | string): Promise<IUsersAttributes | null>;
+  read(id: number | string): Promise<IUsersAttributes[]>;
 }
 
 export { IUserRepository };

@@ -1,13 +1,13 @@
 import { IProfilePictureAttributes } from "./IProfilePictureAttributes";
 
 interface IStudentsAttributes {
-  id: number;
+  id: number | string;
   name: string;
   last_name: string;
   email: string;
-  age: number;
-  weight: number;
-  height: number;
+  age: number | null;
+  weight: number | null;
+  height: number | null;
   created_at: string;
   updated_at: string;
   profile_picture?: IProfilePictureAttributes | null;

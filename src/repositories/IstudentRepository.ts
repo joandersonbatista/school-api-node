@@ -4,11 +4,11 @@ import { IUpdateStudentDTO } from "../useCases/students/UpdateStudent/IUpdateStu
 
 interface IStudentRepository {
   save(student: ICreateStudentDTO): Promise<IStudentsAttributes>;
-  update(student: IUpdateStudentDTO, id: number): Promise<void>;
+  update(student: IUpdateStudentDTO, id: number | string): Promise<void>;
   existsEmail(email: string): Promise<IStudentsAttributes | null>;
-  delete(id: number): Promise<void>;
-  existsId(id: number): Promise<IStudentsAttributes | null>;
-  read(id?: number): Promise<IStudentsAttributes[]>;
+  delete(id: number | string): Promise<void>;
+  existsId(id: number | string): Promise<IStudentsAttributes | null>;
+  read(id?: number | string): Promise<IStudentsAttributes[]>;
 }
 
 export { IStudentRepository };
