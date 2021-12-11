@@ -1,7 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({
+  path: process.env.NODE_ENV === "test" ? ".env.test" : ".env",
+});
 
 import { Middlewares } from "./Middlewares";
 import { IMiddlewaresProtocol } from "./IMiddlewaresProtocol";
