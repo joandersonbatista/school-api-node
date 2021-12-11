@@ -12,8 +12,8 @@ class UserCreateValidantion implements IUserCreateValidations {
     const isEmail = validator.isEmail(user.email);
     const emailIsEmpty = validator.isEmpty(user.email);
 
-    if (!isEmail) throw new Error("it's not email");
     if (emailIsEmpty) throw new Error("E-mail is empty");
+    if (!isEmail) throw new Error("it's not email");
   }
 
   validationName(user: ICreateUserDTO): void {
