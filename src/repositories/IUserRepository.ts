@@ -3,7 +3,7 @@ import { ICreateUserDTO } from "../useCases/users/createUser/ICreateUserDTO";
 import { IUpdateUserDTO } from "../useCases/users/updateUser/IUpdateUserDTO";
 
 interface IUserRepository {
-  save(user: ICreateUserDTO): Promise<void>;
+  save(user: ICreateUserDTO): Promise<IUsersAttributes>;
   update(user: IUpdateUserDTO, id: number | string): Promise<void>;
   existsUserToken(id: number | string, email: string): Promise<IUsersAttributes | null>;
   existsEmail(email: string): Promise<IUsersAttributes | null>;

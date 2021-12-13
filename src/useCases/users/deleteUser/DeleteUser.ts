@@ -9,7 +9,7 @@ class DeleteUser implements IDeleteUser {
     const existsId = await this.userRepository.existsId(user.id);
 
     if (existsId === null) {
-      throw new Error("invalid token");
+      throw new Error("user does not exist");
     }
 
     await this.userRepository.delete(user.id);

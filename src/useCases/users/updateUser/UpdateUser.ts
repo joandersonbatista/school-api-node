@@ -15,16 +15,14 @@ class UpdateUser implements IUpdateUser {
     const existsId = await this.userRepository.existsId(user.id);
 
     if (existsId === null) {
-      throw new Error("Invalid token");
+      throw new Error("non-existent user");
     }
 
     this.validationsUpdateUser.validationEmail(user);
     this.validationsUpdateUser.validationName(user);
     this.validationsUpdateUser.validationPassword(user);
 
-    const existsEmail = await this.userRepository.existsEmail(
-      user.email || "",
-    );
+    const existsEmail = await this.userRepository.existsEmail(user.email || "");
 
     if (existsEmail !== null && existsEmail.id === user.id) {
       if (user.password !== undefined) {
@@ -41,7 +39,7 @@ class UpdateUser implements IUpdateUser {
         const passwordHash = await bcryptjs.hash(user.password, 8);
         user.password = passwordHash;
       }
-      
+
       await this.userRepository.update(user, user.id);
       return;
     }

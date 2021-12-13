@@ -20,4 +20,5 @@ module.exports = {
     timezone: "-03:00",
   },
   timezone: "-03:00",
+  logging: false,
 };

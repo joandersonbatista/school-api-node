@@ -7,7 +7,7 @@
     "dev": "nodemon src/server.ts --ignore __testes__",
     "build": "tsc --build",
     "production": "pm2 start dist/server.js",
-    "test": "NODE_ENV=test jest --noStackTrace --forceExit"
+    "test": "NODE_ENV=test jest --forceExit --runInBand"
   },
   "repository": {
     "type": "git",

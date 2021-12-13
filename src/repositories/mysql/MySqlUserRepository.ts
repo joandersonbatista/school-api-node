@@ -5,8 +5,8 @@ import { IUpdateUserDTO } from "../../useCases/users/updateUser/IUpdateUserDTO";
 import { ICreateUserDTO } from "../../useCases/users/createUser/ICreateUserDTO";
 
 class MysqlUserRepository implements IUserRepository {
-  async save(user: ICreateUserDTO): Promise<void> {
-    await User.create(user);
+  async save(user: ICreateUserDTO): Promise<IUsersAttributes> {
+    return (await User.create(user)).get();
   }
 
   async existsEmail(email: string): Promise<IUsersAttributes | null> {

@@ -7,18 +7,18 @@ class ValidationsUserUpdate implements IValidationsUserUpdate {
   validationEmail(user: IUpdateUserDTO): void {
     if (user.email === undefined) return;
 
-    const isEmail = validator.isEmail(user.email);
     const emailIsEmpty = validator.isEmpty(user.email);
+    const isEmail = validator.isEmail(user.email);
 
-    if (!isEmail) throw new Error("it's not email");
     if (emailIsEmpty) throw new Error("E-mail is empty");
+    if (!isEmail) throw new Error("it's not email");
   }
 
   validationName(user: IUpdateUserDTO): void {
     if (user.name === undefined) return;
 
-    const nameIsEmpty = validator.isEmpty(user.name!);
-    const nameLength = validator.isLength(user.name!, {
+    const nameIsEmpty = validator.isEmpty(user.name);
+    const nameLength = validator.isLength(user.name, {
       max: 255,
       min: 3,
     });

@@ -5,6 +5,7 @@ interface IUsersAttributes {
   password: string;
   created_at: string;
   updated_at: string;
+  __v?: number; // attribute only from mongoDb
 }
 
 export { IUsersAttributes };

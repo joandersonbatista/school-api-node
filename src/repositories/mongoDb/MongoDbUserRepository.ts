@@ -5,8 +5,8 @@ import { IUpdateUserDTO } from "../../useCases/users/updateUser/IUpdateUserDTO";
 import { IUserRepository } from "../IUserRepository";
 
 class MongoDbUserRepository implements IUserRepository {
-  async save(user: ICreateUserDTO): Promise<void> {
-    await MongoDbUser.create(user);
+  async save(user: ICreateUserDTO): Promise<IUsersAttributes> {
+    return await MongoDbUser.create(user);
   }
 
   async update(user: IUpdateUserDTO, id: number | string): Promise<void> {
@@ -38,13 +38,13 @@ class MongoDbUserRepository implements IUserRepository {
 
   async existsId(id: number): Promise<IUsersAttributes | null> {
     const user = await MongoDbUser.findOne({ id });
-    
+
     if (user === null) return null;
 
     return user;
   }
 
-  async read(id: number): Promise<IUsersAttributes[]> {
+  async read(id: number | string): Promise<IUsersAttributes[]> {
     const user = await MongoDbUser.findOne({ id });
 
     return new Array(user!);

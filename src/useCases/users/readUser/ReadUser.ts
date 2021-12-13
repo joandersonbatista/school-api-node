@@ -8,9 +8,8 @@ class ReadUser implements IReadUser {
 
   async execute(user: IReadUserDTO): Promise<IUsersAttributes[]> {
     const existsId = await this.userRepository.existsId(user.id);
-
     if (existsId === null) {
-      throw new Error("invalid token");
+      throw new Error("user does not exist");
     }
 
     return await this.userRepository.read(user.id);
