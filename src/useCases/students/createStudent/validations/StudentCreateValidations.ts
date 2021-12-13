@@ -3,6 +3,10 @@ import validator from "validator";
 import { ICreateStudentDTO } from "../ICreateStudentDTO";
 import { IStudentCreateValidations } from "./IStudentCreateValidations";
 
+function isFloat(num: number): boolean {
+  return Number(num) === num && num % 1 !== 0;
+}
+
 class StudentCreateValidation implements IStudentCreateValidations {
   emailValidation(student: ICreateStudentDTO): void {
     if (student.email === undefined) throw new Error("E-mail is empty");
@@ -46,22 +50,14 @@ class StudentCreateValidation implements IStudentCreateValidations {
   heightValidation(student: ICreateStudentDTO): void {
     if (student.height === undefined) return;
 
-    const heightIsNumber = (height: unknown): boolean => {
-      return Number(height) === height && height % 1 !== 0;
-    };
-
-    if (!heightIsNumber) throw new Error("The age has to be float type");
+    if (!isFloat(student.height)) throw new Error("The height has to be float type");
   }
 
   weightValidation(student: ICreateStudentDTO): void {
     if (student.weight === undefined) return;
 
-    const weightIsNumber = (student: ICreateStudentDTO): boolean => {
-      return Number(student.weight) === student.weight && student.weight % 1 !== 0;
-    };
-
-    if (!weightIsNumber) throw new Error("The weight has to be float type");
+    if (!isFloat(student.weight)) throw new Error("The weight has to be float type");
   }
 }
 
-export { StudentCreateValidation };
+export { StudentCreateValidation, isFloat };

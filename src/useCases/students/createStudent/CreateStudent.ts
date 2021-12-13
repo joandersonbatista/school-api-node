@@ -1,3 +1,4 @@
+import { IStudentsAttributes } from "../../../models/IStudentsAttributes";
 import { IStudentRepository } from "../../../repositories/IstudentRepository";
 import { ICreateStudent } from "./ICreateStudent";
 import { ICreateStudentDTO } from "./ICreateStudentDTO";
@@ -9,7 +10,7 @@ class CreateStudent implements ICreateStudent {
     private studentCreateValidations: IStudentCreateValidations,
   ) {}
 
-  async execute(student: ICreateStudentDTO): Promise<void> {
+  async execute(student: ICreateStudentDTO): Promise<IStudentsAttributes> {
     this.studentCreateValidations.emailValidation(student);
     this.studentCreateValidations.nameValidation(student);
     this.studentCreateValidations.lastNameValidation(student);
@@ -17,13 +18,10 @@ class CreateStudent implements ICreateStudent {
     this.studentCreateValidations.heightValidation(student);
     this.studentCreateValidations.weightValidation(student);
 
-    const existsEmail = await this.studentRepository.existsEmail(
-      student.email,
-    );
+    const existsEmail = await this.studentRepository.existsEmail(student.email);
 
     if (existsEmail === null) {
-      await this.studentRepository.save(student);
-      return;
+      return await this.studentRepository.save(student);
     }
     throw new Error("E-mail already exists");
   }
