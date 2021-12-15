@@ -8,7 +8,21 @@ class CreateStudentController {
 
   async create(req: Request, res: Response): Promise<Response> {
     const student: ICreateStudentDTO = req.body;
-
+    if (!student.email) {
+      return res.status(400).json({
+        message: "email is required",
+      });
+    }
+    if (!student.name) {
+      return res.status(400).json({
+        message: "name is required",
+      });
+    }
+    if (!student.last_name) {
+      return res.status(400).json({
+        message: "last_name is required",
+      });
+    }
     try {
       await this.createStudent.execute(student);
 

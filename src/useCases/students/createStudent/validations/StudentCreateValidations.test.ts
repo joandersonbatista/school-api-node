@@ -3,16 +3,7 @@ import validator from "validator";
 import { utilsStudentTesting } from "../../../../utils/UtilsStudentTesting";
 import { ICreateStudentDTO } from "../ICreateStudentDTO";
 
-interface studentDataTest {
-  email?: string;
-  name?: string;
-  last_name?: string;
-  age?: number;
-  weight?: number;
-  height?: number;
-}
-
-let studentData: studentDataTest = utilsStudentTesting.data;
+let studentData: ICreateStudentDTO = utilsStudentTesting.data;
 // spy methods
 const methodIsNumber = jest.spyOn(Number, "isInteger");
 const methodIsEmail = jest.spyOn(validator, "isEmail");
@@ -35,19 +26,6 @@ describe("user creation validations", () => {
 
     expect(methodIsEmail).toHaveBeenCalledTimes(1);
     expect(methodIsEmpty).toHaveBeenCalledTimes(1);
-  });
-
-  it("email must be undefined", () => {
-    delete studentData.email;
-
-    expect(() => {
-      utilsStudentTesting.studentCreateValidations.emailValidation(
-        studentData as ICreateStudentDTO,
-      );
-    }).toThrow("E-mail is empty");
-
-    expect(methodIsEmail).toHaveBeenCalledTimes(0);
-    expect(methodIsEmpty).toHaveBeenCalledTimes(0);
   });
 
   it("must not be email", () => {
@@ -74,18 +52,6 @@ describe("user creation validations", () => {
 
     expect(methodIsEmpty).toHaveBeenCalledTimes(1);
     expect(methodIsLength).toHaveBeenCalledTimes(1);
-  });
-
-  it("must return error 'Name is empty'", () => {
-    delete studentData.name;
-    expect(() => {
-      utilsStudentTesting.studentCreateValidations.nameValidation(
-        studentData as ICreateStudentDTO,
-      );
-    }).toThrow("Name is empty");
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(0);
-    expect(methodIsLength).toHaveBeenCalledTimes(0);
   });
 
   it("name must be empty", () => {
@@ -128,19 +94,7 @@ describe("user creation validations", () => {
     expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
-  it("must return error 'Name is empty'", () => {
-    delete studentData.last_name;
-    expect(() => {
-      utilsStudentTesting.studentCreateValidations.lastNameValidation(
-        studentData as ICreateStudentDTO,
-      );
-    }).toThrow("Last name is empty");
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(0);
-    expect(methodIsLength).toHaveBeenCalledTimes(0);
-  });
-
-  it("name must be empty", () => {
+  it("last name must be empty", () => {
     studentData.last_name = "";
 
     expect(() => {

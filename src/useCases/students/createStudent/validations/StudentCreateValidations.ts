@@ -9,8 +9,6 @@ function isFloat(num: number): boolean {
 
 class StudentCreateValidation implements IStudentCreateValidations {
   emailValidation(student: ICreateStudentDTO): void {
-    if (student.email === undefined) throw new Error("E-mail is empty");
-
     const isEmail = validator.isEmail(student.email);
     const emailIsEmpty = validator.isEmpty(student.email);
 
@@ -19,8 +17,6 @@ class StudentCreateValidation implements IStudentCreateValidations {
   }
 
   nameValidation(student: ICreateStudentDTO): void {
-    if (student.name === undefined) throw new Error("Name is empty");
-
     const nameIsEmpty = validator.isEmpty(student.name);
     const nameSize = validator.isLength(student.name, { min: 3, max: 255 });
 
@@ -29,10 +25,11 @@ class StudentCreateValidation implements IStudentCreateValidations {
   }
 
   lastNameValidation(student: ICreateStudentDTO): void {
-    if (student.last_name === undefined) throw new Error("Last name is empty");
-
     const lastNameIsEmpty = validator.isEmpty(student.last_name);
-    const lastNameSize = validator.isLength(student.last_name, { min: 3, max: 255 });
+    const lastNameSize = validator.isLength(student.last_name, {
+      min: 3,
+      max: 255,
+    });
 
     if (lastNameIsEmpty) throw new Error("Last name is empty");
     if (!lastNameSize)
@@ -50,13 +47,15 @@ class StudentCreateValidation implements IStudentCreateValidations {
   heightValidation(student: ICreateStudentDTO): void {
     if (student.height === undefined) return;
 
-    if (!isFloat(student.height)) throw new Error("The height has to be float type");
+    if (!isFloat(student.height))
+      throw new Error("The height has to be float type");
   }
 
   weightValidation(student: ICreateStudentDTO): void {
     if (student.weight === undefined) return;
 
-    if (!isFloat(student.weight)) throw new Error("The weight has to be float type");
+    if (!isFloat(student.weight))
+      throw new Error("The weight has to be float type");
   }
 }
 
