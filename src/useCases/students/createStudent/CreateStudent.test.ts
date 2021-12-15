@@ -1,7 +1,7 @@
 import { utilsStudentTesting } from "../../../utils/UtilsStudentTesting";
 import { CreateStudent } from "./CreateStudent";
 
-// suit
+// sut
 const createStudent = new CreateStudent(
   utilsStudentTesting.getRepository(),
   utilsStudentTesting.studentCreateValidations,
@@ -39,7 +39,7 @@ const methodValidationWeight = jest.spyOn(
 );
 
 afterAll(async () => {
-  await utilsStudentTesting.deleteData();
+  await utilsStudentTesting.deleteStudentData();
 });
 
 describe("create student", () => {
@@ -59,5 +59,13 @@ describe("create student", () => {
     await expect(
       createStudent.execute(studentData),
     ).rejects.toThrow("E-mail already exists");
+    expect(methodExistEmail).toHaveBeenCalledTimes(1);
+    expect(methodSave).toHaveBeenCalledTimes(0);
+    expect(methodValidationEmail).toHaveBeenCalledTimes(1);
+    expect(methodValidationName).toHaveBeenCalledTimes(1);
+    expect(methodValidationLastName).toHaveBeenCalledTimes(1);
+    expect(methodValidationAge).toHaveBeenCalledTimes(1);
+    expect(methodValidationHeight).toHaveBeenCalledTimes(1);
+    expect(methodValidationWeight).toHaveBeenCalledTimes(1);
   });
 });
