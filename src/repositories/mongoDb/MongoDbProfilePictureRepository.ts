@@ -1,16 +1,27 @@
 import { MongoDbProfilePicture } from "../../models/mongoDb/MongoDbProfilePictures";
 import { IProfilePictureAttributes } from "../../models/IProfilePictureAttributes";
-import { ICreateProfilePictureDTO } from "../../useCases/profilePicture/CreateProfilePicture/CreateProfilePictureDTO";
+import { ICreateProfilePictureDTO } from "../../useCases/profilePicture/CreateProfilePicture/ICreateProfilePictureDTO";
 import { IUpdateProfilePictureDTO } from "../../useCases/profilePicture/updateProfilePicture/IUpdateProfilePictureDTO";
 import { IProfilePictureRepository } from "../IProfilePictureRepository";
 
 class MongoDbProfilePictureRepository implements IProfilePictureRepository {
-  async save(picture: ICreateProfilePictureDTO): Promise<void> {
-    await MongoDbProfilePicture.create(picture);
+  async save(
+    picture: ICreateProfilePictureDTO,
+  ): Promise<IProfilePictureAttributes> {
+    return await MongoDbProfilePicture.create(picture);
   }
 
-  async update(picture: IUpdateProfilePictureDTO, id: number | string): Promise<void> {
-    await MongoDbProfilePicture.updateOne({ id }, picture);
+  async update(
+    picture: IUpdateProfilePictureDTO,
+    id: number | string,
+  ): Promise<IProfilePictureAttributes> {
+    const profilePicture = await MongoDbProfilePicture.updateOne(
+      { id },
+      picture,
+    ).findOne({
+      id,
+    });
+    return profilePicture as IProfilePictureAttributes;
   }
 
   async delete(student_id: string | string): Promise<void> {

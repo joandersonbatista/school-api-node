@@ -1,5 +1,10 @@
+import { IProfilePictureAttributes } from "../../../models/IProfilePictureAttributes";
+
 interface ICreateProfilePicture {
-  create(picture: Express.Multer.File, student_id: number | string): Promise<void>
+  create(
+    picture: Omit<Express.Multer.File, "stream" | "buffer">,
+    student_id: number | string,
+  ): Promise<IProfilePictureAttributes>;
 }
 
 export { ICreateProfilePicture };

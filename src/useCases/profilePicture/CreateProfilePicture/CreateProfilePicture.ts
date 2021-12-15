@@ -1,7 +1,8 @@
+import { IProfilePictureAttributes } from "../../../models/IProfilePictureAttributes";
 import { IStorageServiceProfilePicture } from "../../../providers/IStorageServiceProfilePicture";
 import { IProfilePictureRepository } from "../../../repositories/IProfilePictureRepository";
 import { ICreateProfilePicture } from "./ICreateProfilePicture";
-import { ICreateProfilePictureDTO } from "./CreateProfilePictureDTO";
+import { ICreateProfilePictureDTO } from "./ICreateProfilePictureDTO";
 
 class CreateProfilePicture implements ICreateProfilePicture {
   constructor(
@@ -10,9 +11,9 @@ class CreateProfilePicture implements ICreateProfilePicture {
   ) {}
 
   async create(
-    picture: Express.Multer.File,
+    picture: Omit<Express.Multer.File, "stream" | "buffer">,
     student_id: number | string,
-  ): Promise<void> {
+  ): Promise<IProfilePictureAttributes> {
     await this.storageServiceProfilePicture.saveFile(picture.filename);
 
     const url = this.storageServiceProfilePicture.getUrl(picture.filename);
@@ -22,7 +23,7 @@ class CreateProfilePicture implements ICreateProfilePicture {
       student_id,
     });
 
-    await this.profilePictureRepository.save(pictureProfile);
+    return await this.profilePictureRepository.save(pictureProfile);
   }
 }
 
