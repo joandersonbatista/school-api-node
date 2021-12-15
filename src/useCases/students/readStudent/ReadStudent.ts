@@ -6,8 +6,8 @@ import { IReadStudentDTO } from "./IReadStudentDTO";
 class ReadStudent implements IReadStudent {
   constructor(private studentRepository: IStudentRepository) {}
 
-  async execute(student: IReadStudentDTO): Promise<IStudentsAttributes[]> {
-    if (student.id === undefined) {
+  async execute(student?: IReadStudentDTO): Promise<IStudentsAttributes[]> {
+    if (student === undefined) {
       return this.studentRepository.read();
     }
 

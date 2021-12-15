@@ -1,5 +1,10 @@
+import { IUpdateProfilePictureDTO } from "./IUpdateProfilePictureDTO";
+
 interface IUpdateProfilePicture {
-  execute(profilePicture: Express.Multer.File, id: number | string): Promise<void>;
+  execute(
+    profilePicture: IUpdateProfilePictureDTO,
+    id: number | string,
+  ): Promise<void>;
 }
 
 export { IUpdateProfilePicture };

@@ -1,4 +1,5 @@
 import validator from "validator";
+import { isFloat } from "../../createStudent/validations/StudentCreateValidations";
 
 import { IUpdateStudentDTO } from "../IUpdateStudentDTO";
 import { IStudentUpdateValidations } from "./IStudentUpdateValidations";
@@ -46,21 +47,13 @@ class StudentUpdateValidations implements IStudentUpdateValidations {
   heightValidation(student: IUpdateStudentDTO): void {
     if (student.height === undefined) return;
 
-    const heightIsNumber = (height: unknown): boolean => {
-      return Number(height) === height && height % 1 !== 0;
-    };
-
-    if (!heightIsNumber) throw new Error("The age has to be float type");
+    if (!isFloat(student.height)) throw new Error("The height has to be float type");
   }
 
   weightValidation(student: IUpdateStudentDTO): void {
     if (student.weight === undefined) return;
 
-    const weightIsNumber = (weight: unknown): boolean => {
-      return Number(weight) === weight && weight % 1 !== 0;
-    };
-
-    if (!weightIsNumber) throw new Error("The weight has to be float type");
+    if (!isFloat(student.weight)) throw new Error("The weight has to be float type");
   }
 }
 

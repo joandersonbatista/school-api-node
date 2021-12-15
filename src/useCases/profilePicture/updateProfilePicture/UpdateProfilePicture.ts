@@ -10,7 +10,7 @@ class UpdateProfilePicture implements IUpdateProfilePicture {
   ) {}
 
   async execute(
-    picture: Express.Multer.File,
+    picture: IUpdateProfilePictureDTO,
     student_id: number | string,
   ): Promise<void> {
     const oldProfilePicture =
