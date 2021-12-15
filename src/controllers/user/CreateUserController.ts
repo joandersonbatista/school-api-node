@@ -8,7 +8,21 @@ class CreateUserController {
 
   async create(req: Request, res: Response): Promise<Response> {
     const user: ICreateUserDTO = req.body;
-
+    if (!user.email) {
+      return res.status(400).json({
+        message: "email is required",
+      });
+    }
+    if (!user.name) {
+      return res.status(400).json({
+        message: "name is required",
+      });
+    }
+    if (!user.password) {
+      return res.status(400).json({
+        message: "password is required",
+      });
+    }
     try {
       await this.createUser.execute(user);
       return res.status(201).send();

@@ -5,10 +5,6 @@ import { IUserCreateValidations } from "./IUserCreateValidations";
 
 class UserCreateValidantion implements IUserCreateValidations {
   validationEmail(user: ICreateUserDTO): void {
-    if (user.email === undefined) {
-      throw new Error("E-mail is empty");
-    }
-
     const isEmail = validator.isEmail(user.email);
     const emailIsEmpty = validator.isEmpty(user.email);
 
@@ -17,10 +13,6 @@ class UserCreateValidantion implements IUserCreateValidations {
   }
 
   validationName(user: ICreateUserDTO): void {
-    if (user.name === undefined) {
-      throw new Error("Name is empty");
-    }
-
     const nameIsEmpty = validator.isEmpty(user.name);
     const nameLength = validator.isLength(user.name, {
       max: 255,
@@ -32,10 +24,6 @@ class UserCreateValidantion implements IUserCreateValidations {
   }
 
   validationPassword(user: ICreateUserDTO): void {
-    if (user.password === undefined) {
-      throw new Error("Password is empty");
-    }
-
     const passwordIsEmpty = validator.isEmpty(user.password);
     const passwordLength = validator.isLength(user.password, {
       max: 50,

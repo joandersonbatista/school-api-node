@@ -3,13 +3,7 @@ import validator from "validator";
 import { utilsUserTesting } from "../../../../utils/UtilsUserTesting";
 import { ICreateUserDTO } from "../ICreateUserDTO";
 
-interface useDataTest {
-  email: string | undefined;
-  name: string | undefined;
-  password: string | undefined;
-}
-
-let userData: useDataTest = utilsUserTesting.data;
+let userData: ICreateUserDTO = utilsUserTesting.data;
 let userCreateValidaions = utilsUserTesting.userCreateValidations;
 // spy methods
 let methodIsEmail = jest.spyOn(validator, "isEmail");
@@ -22,27 +16,17 @@ describe("user validations", () => {
   // E-mail
   it("email must be valid", () => {
     expect(() => {
-      userCreateValidaions.validationEmail(userData as ICreateUserDTO);
+      userCreateValidaions.validationEmail(userData);
     }).not.toThrow();
 
     expect(methodIsEmail).toHaveBeenCalledTimes(1);
     expect(methodIsEmpty).toHaveBeenCalledTimes(1);
   });
 
-  it("email must be undefined", () => {
-    delete userData.email;
-    expect(() => {
-      userCreateValidaions.validationEmail(userData as ICreateUserDTO);
-    }).toThrow("E-mail is empty");
-
-    expect(methodIsEmail).toHaveBeenCalledTimes(0);
-    expect(methodIsEmpty).toHaveBeenCalledTimes(0);
-  });
-
   it("must not be email", () => {
     userData.email = "not_email";
     expect(() => {
-      userCreateValidaions.validationEmail(userData as ICreateUserDTO);
+      userCreateValidaions.validationEmail(userData);
     }).toThrow("it's not email");
 
     expect(methodIsEmail).toHaveBeenCalledTimes(1);
@@ -53,7 +37,7 @@ describe("user validations", () => {
     userData.email = "";
 
     expect(() => {
-      userCreateValidaions.validationEmail(userData as ICreateUserDTO);
+      userCreateValidaions.validationEmail(userData);
     }).toThrow("E-mail is empty");
 
     expect(methodIsEmail).toHaveBeenCalledTimes(1);
@@ -65,28 +49,18 @@ describe("user validations", () => {
   // Name
   it("name must be valid", () => {
     expect(() => {
-      userCreateValidaions.validationName(userData as ICreateUserDTO);
+      userCreateValidaions.validationName(userData);
     }).not.toThrow();
 
     expect(methodIsEmpty).toHaveBeenCalledTimes(1);
     expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
-  it("name must be undefined", () => {
-    delete userData.name;
-    expect(() => {
-      userCreateValidaions.validationName(userData as ICreateUserDTO);
-    }).toThrow("Name is empty");
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(0);
-    expect(methodIsLength).toHaveBeenCalledTimes(0);
-  });
-
   it("name must be empty", () => {
     userData.name = "";
 
     expect(() => {
-      userCreateValidaions.validationName(userData as ICreateUserDTO);
+      userCreateValidaions.validationName(userData);
     }).toThrow("Name is empty");
 
     expect(methodIsEmpty).toHaveBeenCalledTimes(1);
@@ -97,7 +71,7 @@ describe("user validations", () => {
     userData.name = "no";
 
     expect(() => {
-      userCreateValidaions.validationName(userData as ICreateUserDTO);
+      userCreateValidaions.validationName(userData);
     }).toThrow("Name must be from 3 to 255 characters");
 
     expect(methodIsEmpty).toHaveBeenCalledTimes(1);
@@ -109,29 +83,18 @@ describe("user validations", () => {
   // Password
   it("password must be valid", () => {
     expect(() => {
-      userCreateValidaions.validationPassword(userData as ICreateUserDTO);
+      userCreateValidaions.validationPassword(userData);
     }).not.toThrow();
 
     expect(methodIsEmpty).toHaveBeenCalledTimes(1);
     expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
-  it("password must be undefined", () => {
-    delete userData.password;
-
-    expect(() => {
-      userCreateValidaions.validationPassword(userData as ICreateUserDTO);
-    }).toThrow("Password is empty");
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(0);
-    expect(methodIsLength).toHaveBeenCalledTimes(0);
-  });
-
   it("password must be empty", () => {
     userData.password = "";
 
     expect(() => {
-      userCreateValidaions.validationPassword(userData as ICreateUserDTO);
+      userCreateValidaions.validationPassword(userData);
     }).toThrow("Password is empty");
 
     expect(methodIsEmpty).toHaveBeenCalledTimes(1);
@@ -142,7 +105,7 @@ describe("user validations", () => {
     userData.password = "12345";
 
     expect(() => {
-      userCreateValidaions.validationPassword(userData as ICreateUserDTO);
+      userCreateValidaions.validationPassword(userData);
     }).toThrow("Password must be from 6 to 50 characters");
 
     expect(methodIsEmpty).toHaveBeenCalledTimes(1);
