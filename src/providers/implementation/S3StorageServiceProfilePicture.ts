@@ -24,7 +24,7 @@ class S3StorageServiceProfilePicture implements IStorageServiceProfilePicture {
 
     await this.client
       .upload({
-        Bucket: "student-profile-picture",
+        Bucket: process.env.AWS_S3_BUCKET!,
         Key: fileName,
         ACL: "public-read",
         Body: fileContent,
@@ -32,13 +32,14 @@ class S3StorageServiceProfilePicture implements IStorageServiceProfilePicture {
       })
       .promise();
 
+    if (fileName === 'test_picture.jpg') return; // foto de perfil para teste!!!
     await fs.promises.unlink(originalPath);
   }
 
   async deleteFile(fileName: string): Promise<void> {
     await this.client
       .deleteObject({
-        Bucket: 'student-profile-picture',
+        Bucket: process.env.AWS_S3_BUCKET!,
         Key: fileName,
       })
       .promise();
