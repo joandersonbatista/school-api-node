@@ -1,9 +1,12 @@
+import { IStudentsAttributes } from "../../../models/IStudentsAttributes";
 import { IStudentRepository } from "../../../repositories/IstudentRepository";
 import { ICreateProfilePicture } from "../../profilePicture/CreateProfilePicture/ICreateProfilePicture";
 import { IUpdateProfilePicture } from "../../profilePicture/updateProfilePicture/IUpdateProfilePicture";
-import { IUpdateStudent } from "./IUpdateStudent";
+import { IUpdateProfilePictureDTO } from "../../profilePicture/updateProfilePicture/IUpdateProfilePictureDTO";
+import { IUpdateStudent, CreateProfilePictureType } from "./IUpdateStudent";
 import { IUpdateStudentDTO } from "./IUpdateStudentDTO";
 import { IStudentUpdateValidations } from "./validations/IStudentUpdateValidations";
+
 
 class UpdateStudent implements IUpdateStudent {
   constructor(
@@ -15,8 +18,8 @@ class UpdateStudent implements IUpdateStudent {
 
   async execute(
     student: IUpdateStudentDTO,
-    picture?: Express.Multer.File,
-  ): Promise<void> {
+    picture?: CreateProfilePictureType | IUpdateProfilePictureDTO,
+  ): Promise<IStudentsAttributes> {
     const existsId = await this.studentRepository.existsId(student.id);
 
     if (existsId === null) {
@@ -40,36 +43,30 @@ class UpdateStudent implements IUpdateStudent {
 
     if (existsEmail !== null && existsEmail.id === student.id) {
       if (picture === undefined) {
-        await this.studentRepository.update(student, student.id);
-        return;
+        return await this.studentRepository.update(student, student.id);
       }
 
       if (studentHaveProfilePicture.profile_picture === null) {
-        await this.createProfilePicture.create(picture, student.id);
-        await this.studentRepository.update(student, student.id);
-        return;
+        await this.createProfilePicture.create(picture as CreateProfilePictureType, student.id);
+        return await this.studentRepository.update(student, student.id);
       }
 
-      await this.updateProfilePicture.execute(picture, student.id);
-      await this.studentRepository.update(student, student.id);
-      return;
+      await this.updateProfilePicture.execute(picture as IUpdateProfilePictureDTO, student.id);
+      return await this.studentRepository.update(student, student.id);
     }
 
     if (existsEmail === null) {
       if (picture === undefined) {
-        await this.studentRepository.update(student, student.id);
-        return;
+        return await this.studentRepository.update(student, student.id);
       }
 
       if (studentHaveProfilePicture.profile_picture === null) {
-        await this.createProfilePicture.create(picture, student.id);
-        await this.studentRepository.update(student, student.id);
-        return;
+        await this.createProfilePicture.create(picture as CreateProfilePictureType, student.id);
+        return await this.studentRepository.update(student, student.id);
       }
 
-      await this.updateProfilePicture.execute(picture, student.id);
-      await this.studentRepository.update(student, student.id);
-      return;
+      await this.updateProfilePicture.execute(picture as IUpdateProfilePictureDTO, student.id);
+      return await this.studentRepository.update(student, student.id);
     }
 
     throw new Error("E-mail already exists");

@@ -9,16 +9,19 @@ class MongoDbStudentRepository implements IStudentRepository {
     return await MongoDbStudents.create(student);
   }
 
-  async update(student: IUpdateStudentDTO, id: number): Promise<void> {
-    await MongoDbStudents.updateOne({ id }, student);
+  async update(
+    student: IUpdateStudentDTO,
+    id: number | string,
+  ): Promise<IStudentsAttributes> {
+    const studentUpdate = await MongoDbStudents.updateOne(
+      { id },
+      student,
+    ).findOne({ id });
+    return studentUpdate as IStudentsAttributes;
   }
 
   async existsEmail(email: string): Promise<IStudentsAttributes | null> {
-    const student = await MongoDbStudents.findOne({ email });
-
-    if (student === null) return null;
-
-    return student;
+    return await MongoDbStudents.findOne({ email });
   }
 
   async delete(id: number): Promise<void> {

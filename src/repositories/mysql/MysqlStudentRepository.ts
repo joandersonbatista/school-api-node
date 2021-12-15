@@ -54,8 +54,14 @@ class MysqlStudentRepository implements IStudentRepository {
     return new Array(studentId!.get());
   }
 
-  async update(student: IUpdateStudentDTO, id: number): Promise<void> {
+  async update(
+    student: IUpdateStudentDTO,
+    id: number | string,
+  ): Promise<IStudentsAttributes> {
     await Student.update(student, { where: { id } });
+    return await Student.findOne({ where: { id } }).then((student) => {
+      return student?.get() as IStudentsAttributes;
+    });
   }
 }
 

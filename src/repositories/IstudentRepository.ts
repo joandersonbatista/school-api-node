@@ -4,7 +4,7 @@ import { IUpdateStudentDTO } from "../useCases/students/UpdateStudent/IUpdateStu
 
 interface IStudentRepository {
   save(student: ICreateStudentDTO): Promise<IStudentsAttributes>;
-  update(student: IUpdateStudentDTO, id: number | string): Promise<void>;
+  update(student: IUpdateStudentDTO, id: number | string): Promise<IStudentsAttributes>;
   existsEmail(email: string): Promise<IStudentsAttributes | null>;
   delete(id: number | string): Promise<void>;
   existsId(id: number | string): Promise<IStudentsAttributes | null>;
