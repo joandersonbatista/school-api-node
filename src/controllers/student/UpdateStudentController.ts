@@ -20,7 +20,7 @@ class UpdateStudentController {
       student.id = req.params.id;
       try {
         if (req.file === undefined) {
-          await this.updateStudent.execute(student, req.file!);
+          await this.updateStudent.execute(student, req.file);
 
           return res.status(201).send();
         }
