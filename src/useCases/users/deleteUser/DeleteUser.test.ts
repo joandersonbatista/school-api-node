@@ -4,9 +4,6 @@ import { IDeletedUserDTO } from "./IDeleteUserDTO";
 
 let deleteUser = new DeleteUser(utilsUserTesting.getRepository()); // sut
 let userData: IDeletedUserDTO; // contém o id para excluir o usuário
-// spy methods
-let methodExistsId = jest.spyOn(utilsUserTesting.getRepository(), "existsId");
-let methodDelete = jest.spyOn(utilsUserTesting.getRepository(), "delete");
 
 beforeAll(async () => {
   const id = (await utilsUserTesting.createData()).id;
@@ -24,8 +21,6 @@ describe("delete user", () => {
     await expect(
       deleteUser.execute(userData as IDeletedUserDTO),
     ).resolves.not.toThrow();
-    expect(methodExistsId).toHaveBeenCalledTimes(1);
-    expect(methodDelete).toHaveBeenCalledTimes(1);
   });
 
   it("Must not have user and throw 'user does not exist' error", async () => {
@@ -34,8 +29,6 @@ describe("delete user", () => {
     await expect(
       deleteUser.execute(userData as IDeletedUserDTO),
     ).rejects.toThrow("user does not exist");
-    expect(methodExistsId).toHaveBeenCalledTimes(1);
-    expect(methodDelete).toHaveBeenCalledTimes(0);
   });
 
   /* *************************************** */

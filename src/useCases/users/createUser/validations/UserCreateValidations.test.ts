@@ -1,14 +1,8 @@
-import validator from "validator";
-
 import { utilsUserTesting } from "../../../../utils/UtilsUserTesting";
 import { ICreateUserDTO } from "../ICreateUserDTO";
 
 let userData: ICreateUserDTO = utilsUserTesting.data;
 let userCreateValidaions = utilsUserTesting.userCreateValidations;
-// spy methods
-let methodIsEmail = jest.spyOn(validator, "isEmail");
-let methodIsEmpty = jest.spyOn(validator, "isEmpty");
-let methodIsLength = jest.spyOn(validator, "isLength");
 
 describe("user validations", () => {
   // todas Possibilidades de retorno da validação do dados do usuário..
@@ -18,9 +12,6 @@ describe("user validations", () => {
     expect(() => {
       userCreateValidaions.validationEmail(userData);
     }).not.toThrow();
-
-    expect(methodIsEmail).toHaveBeenCalledTimes(1);
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
   });
 
   it("must not be email", () => {
@@ -28,9 +19,6 @@ describe("user validations", () => {
     expect(() => {
       userCreateValidaions.validationEmail(userData);
     }).toThrow("it's not email");
-
-    expect(methodIsEmail).toHaveBeenCalledTimes(1);
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
   });
 
   it("email must be empty", () => {
@@ -39,9 +27,6 @@ describe("user validations", () => {
     expect(() => {
       userCreateValidaions.validationEmail(userData);
     }).toThrow("E-mail is empty");
-
-    expect(methodIsEmail).toHaveBeenCalledTimes(1);
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
   });
 
   /* *************************************** */
@@ -51,9 +36,6 @@ describe("user validations", () => {
     expect(() => {
       userCreateValidaions.validationName(userData);
     }).not.toThrow();
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
-    expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
   it("name must be empty", () => {
@@ -62,9 +44,6 @@ describe("user validations", () => {
     expect(() => {
       userCreateValidaions.validationName(userData);
     }).toThrow("Name is empty");
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
-    expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
   it("name must not be 3 to 255 characters long", () => {
@@ -73,9 +52,6 @@ describe("user validations", () => {
     expect(() => {
       userCreateValidaions.validationName(userData);
     }).toThrow("Name must be from 3 to 255 characters");
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
-    expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
   /* *************************************** */
@@ -85,9 +61,6 @@ describe("user validations", () => {
     expect(() => {
       userCreateValidaions.validationPassword(userData);
     }).not.toThrow();
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
-    expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
   it("password must be empty", () => {
@@ -96,9 +69,6 @@ describe("user validations", () => {
     expect(() => {
       userCreateValidaions.validationPassword(userData);
     }).toThrow("Password is empty");
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
-    expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
   it("password must not be 6 to 50 characters long", () => {
@@ -107,9 +77,6 @@ describe("user validations", () => {
     expect(() => {
       userCreateValidaions.validationPassword(userData);
     }).toThrow("Password must be from 6 to 50 characters");
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
-    expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
   /* *************************************** */

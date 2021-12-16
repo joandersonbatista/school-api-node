@@ -7,25 +7,7 @@ const createUser = new CreateUser(
   utilsUserTesting.userCreateValidations,
 ); // sut
 let userData: ICreateUserDTO;
-
-// spy methods
-const methodValidationEmail = jest.spyOn(
-  utilsUserTesting.userCreateValidations,
-  "validationEmail",
-);
-const methodValidationName = jest.spyOn(
-  utilsUserTesting.userCreateValidations,
-  "validationName",
-);
-const methodValidationPassword = jest.spyOn(
-  utilsUserTesting.userCreateValidations,
-  "validationPassword",
-);
-const methodExistsEmail = jest.spyOn(
-  utilsUserTesting.getRepository(),
-  "existsEmail",
-);
-const methodSave = jest.spyOn(utilsUserTesting.getRepository(), "save");
+const expectContainKeys = ["id", "name", "email", "password"];
 
 afterAll(async () => {
   await utilsUserTesting.deleteData();
@@ -36,13 +18,9 @@ describe("Create user", () => {
 
   it("must be able to create user", async () => {
     userData = utilsUserTesting.data;
-    await expect(createUser.execute(userData)).resolves.toHaveProperty("id");
-
-    expect(methodValidationEmail).toHaveBeenCalledTimes(1);
-    expect(methodValidationName).toHaveBeenCalledTimes(1);
-    expect(methodValidationPassword).toHaveBeenCalledTimes(1);
-    expect(methodExistsEmail).toHaveBeenCalledTimes(1);
-    expect(methodSave).toHaveBeenCalledTimes(1);
+    await expect(createUser.execute(userData)).resolves.toContainKeys(
+      expectContainKeys,
+    );
   });
 
   it("it is not possible to create user, user already exists", async () => {
@@ -51,11 +29,6 @@ describe("Create user", () => {
     await expect(createUser.execute(userData)).rejects.toThrow(
       "E-mail already exists",
     );
-    expect(methodValidationEmail).toHaveBeenCalledTimes(1);
-    expect(methodValidationName).toHaveBeenCalledTimes(1);
-    expect(methodValidationPassword).toHaveBeenCalledTimes(1);
-    expect(methodExistsEmail).toHaveBeenCalledTimes(1);
-    expect(methodSave).toHaveBeenCalledTimes(0);
   });
 
   /* *************************************** */

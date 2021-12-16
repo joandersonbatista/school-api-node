@@ -7,36 +7,18 @@ const createStudent = new CreateStudent(
   utilsStudentTesting.studentCreateValidations,
 );
 const studentData = utilsStudentTesting.data;
-// spy methods
-const methodExistEmail = jest.spyOn(
-  utilsStudentTesting.getRepository(),
-  "existsEmail",
-);
-const methodSave = jest.spyOn(utilsStudentTesting.getRepository(), "save");
-const methodValidationEmail = jest.spyOn(
-  utilsStudentTesting.studentCreateValidations,
-  "emailValidation",
-);
-const methodValidationName = jest.spyOn(
-  utilsStudentTesting.studentCreateValidations,
-  "nameValidation",
-);
-const methodValidationLastName = jest.spyOn(
-  utilsStudentTesting.studentCreateValidations,
-  "lastNameValidation",
-);
-const methodValidationAge = jest.spyOn(
-  utilsStudentTesting.studentCreateValidations,
-  "ageValidation",
-);
-const methodValidationHeight = jest.spyOn(
-  utilsStudentTesting.studentCreateValidations,
-  "heightValidation",
-);
-const methodValidationWeight = jest.spyOn(
-  utilsStudentTesting.studentCreateValidations,
-  "weightValidation",
-);
+const expectContainKeys = [
+  "id",
+  "name",
+  "last_name",
+  "email",
+  "age",
+  "weight",
+  "height",
+  "created_at",
+  "updated_at",
+  "profile_picture",
+];
 
 afterAll(async () => {
   await utilsStudentTesting.deleteStudentData();
@@ -44,28 +26,14 @@ afterAll(async () => {
 
 describe("create student", () => {
   it("it must be possible to create user", async () => {
-    await expect(createStudent.execute(studentData)).resolves.not.toThrow();
-    expect(methodExistEmail).toHaveBeenCalledTimes(1);
-    expect(methodSave).toHaveBeenCalledTimes(1);
-    expect(methodValidationEmail).toHaveBeenCalledTimes(1);
-    expect(methodValidationName).toHaveBeenCalledTimes(1);
-    expect(methodValidationLastName).toHaveBeenCalledTimes(1);
-    expect(methodValidationAge).toHaveBeenCalledTimes(1);
-    expect(methodValidationHeight).toHaveBeenCalledTimes(1);
-    expect(methodValidationWeight).toHaveBeenCalledTimes(1);
+    await expect(createStudent.execute(studentData)).resolves.toContainKeys(
+      expectContainKeys,
+    );
   });
 
   it("should return error E-mail already exists", async () => {
-    await expect(
-      createStudent.execute(studentData),
-    ).rejects.toThrow("E-mail already exists");
-    expect(methodExistEmail).toHaveBeenCalledTimes(1);
-    expect(methodSave).toHaveBeenCalledTimes(0);
-    expect(methodValidationEmail).toHaveBeenCalledTimes(1);
-    expect(methodValidationName).toHaveBeenCalledTimes(1);
-    expect(methodValidationLastName).toHaveBeenCalledTimes(1);
-    expect(methodValidationAge).toHaveBeenCalledTimes(1);
-    expect(methodValidationHeight).toHaveBeenCalledTimes(1);
-    expect(methodValidationWeight).toHaveBeenCalledTimes(1);
+    await expect(createStudent.execute(studentData)).rejects.toThrow(
+      "E-mail already exists",
+    );
   });
 });

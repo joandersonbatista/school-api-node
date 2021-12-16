@@ -7,21 +7,18 @@ const createProfilePicture = new CreateProfilePicture(
 );
 const profilePictureData = utilsStudentTesting.picture;
 let student_id: number | string;
-
-// spy methods
-const methodSaveFile = jest.spyOn(
-  utilsStudentTesting.storageServiceProfilePicture,
-  "saveFile",
-);
-const methodGetUrl = jest.spyOn(
-  utilsStudentTesting.storageServiceProfilePicture,
-  "getUrl",
-);
-const methodSave = jest.spyOn(
-  utilsStudentTesting.profilePictureRepository,
-  "save",
-);
-const methodObjectAssign = jest.spyOn(Object, "assign");
+const expectContainKeys = [
+  "id",
+  "fieldname",
+  "originalname",
+  "mimetype",
+  "filename",
+  "size",
+  "url",
+  "student_id",
+  "created_at",
+  "updated_at",
+];
 
 beforeAll(async () => {
   const { id } = await utilsStudentTesting.createStudentData();
@@ -36,13 +33,6 @@ describe("create profile picture", () => {
   it("must be possible create profile picture", async () => {
     await expect(
       createProfilePicture.create(profilePictureData, student_id),
-    ).resolves.not.toThrow();
-    await expect(
-      createProfilePicture.create(profilePictureData, student_id),
-    ).resolves.toHaveProperty("id");
-    expect(methodGetUrl).toHaveBeenCalledTimes(2);
-    expect(methodSaveFile).toHaveBeenCalledTimes(2);
-    expect(methodSave).toHaveBeenCalledTimes(2);
-    expect(methodObjectAssign).toHaveBeenCalled();
+    ).resolves.toContainKeys(expectContainKeys);
   });
 });

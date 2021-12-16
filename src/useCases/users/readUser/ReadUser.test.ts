@@ -6,9 +6,6 @@ import { ReadUser } from "./ReadUser";
 let userData: IReadUserDTO; // contém o id para ler o usuário
 let readUser = new ReadUser(utilsUserTesting.getRepository()); // sut
 let expectReturn: IUsersAttributes[];
-// spy methods
-let methodExistsId = jest.spyOn(utilsUserTesting.getRepository(), "existsId");
-let methodRead = jest.spyOn(utilsUserTesting.getRepository(), "read");
 
 beforeAll(async () => {
   const { id } = await utilsUserTesting.createData();
@@ -25,8 +22,6 @@ describe("read user", () => {
     await expect(readUser.execute(userData)).resolves.toStrictEqual(
       expectReturn,
     );
-    expect(methodExistsId).toHaveBeenCalledTimes(1);
-    expect(methodRead).toHaveBeenCalledTimes(1);
   });
 
   it("must not read user, because user does not exist", async () => {
@@ -35,7 +30,5 @@ describe("read user", () => {
     await expect(readUser.execute(userData)).rejects.toThrow(
       "user does not exist",
     );
-    expect(methodExistsId).toHaveBeenCalledTimes(1);
-    expect(methodRead).toHaveBeenCalledTimes(0);
   });
 });

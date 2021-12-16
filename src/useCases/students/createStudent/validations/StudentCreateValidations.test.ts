@@ -1,14 +1,7 @@
-import validator from "validator";
-
 import { utilsStudentTesting } from "../../../../utils/UtilsStudentTesting";
 import { ICreateStudentDTO } from "../ICreateStudentDTO";
 
 let studentData: ICreateStudentDTO = utilsStudentTesting.data;
-// spy methods
-const methodIsNumber = jest.spyOn(Number, "isInteger");
-const methodIsEmail = jest.spyOn(validator, "isEmail");
-const methodIsEmpty = jest.spyOn(validator, "isEmpty");
-const methodIsLength = jest.spyOn(validator, "isLength");
 
 beforeEach(() => {
   studentData = utilsStudentTesting.data;
@@ -23,9 +16,6 @@ describe("user creation validations", () => {
         studentData as ICreateStudentDTO,
       );
     }).toThrow("E-mail is empty");
-
-    expect(methodIsEmail).toHaveBeenCalledTimes(1);
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
   });
 
   it("must not be email", () => {
@@ -35,9 +25,6 @@ describe("user creation validations", () => {
         studentData as ICreateStudentDTO,
       );
     }).toThrow("it's not email");
-
-    expect(methodIsEmail).toHaveBeenCalledTimes(1);
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
   });
 
   /* *************************************** */
@@ -49,9 +36,6 @@ describe("user creation validations", () => {
         studentData as ICreateStudentDTO,
       );
     }).not.toThrow();
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
-    expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
   it("name must be empty", () => {
@@ -62,9 +46,6 @@ describe("user creation validations", () => {
         studentData as ICreateStudentDTO,
       );
     }).toThrow("Name is empty");
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
-    expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
   it("name must not be 3 to 255 characters long", () => {
@@ -75,9 +56,6 @@ describe("user creation validations", () => {
         studentData as ICreateStudentDTO,
       );
     }).toThrow("Name must be from 3 to 255 characters");
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
-    expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
   /* *************************************** */
@@ -89,9 +67,6 @@ describe("user creation validations", () => {
         studentData as ICreateStudentDTO,
       );
     }).not.toThrow();
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
-    expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
   it("last name must be empty", () => {
@@ -102,9 +77,6 @@ describe("user creation validations", () => {
         studentData as ICreateStudentDTO,
       );
     }).toThrow("Last name is empty");
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
-    expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
   it("name must not be 3 to 255 characters long", () => {
@@ -115,9 +87,6 @@ describe("user creation validations", () => {
         studentData as ICreateStudentDTO,
       );
     }).toThrow("Last name must be from 3 to 255 characters");
-
-    expect(methodIsEmpty).toHaveBeenCalledTimes(1);
-    expect(methodIsLength).toHaveBeenCalledTimes(1);
   });
 
   // Age
@@ -127,8 +96,6 @@ describe("user creation validations", () => {
         studentData as ICreateStudentDTO,
       );
     }).not.toThrow();
-
-    expect(methodIsNumber).toHaveBeenCalledTimes(1);
   });
 
   it("must return error 'The age has to be Integer type'", () => {
@@ -138,8 +105,6 @@ describe("user creation validations", () => {
         studentData as ICreateStudentDTO,
       );
     }).toThrow("The age has to be Integer type");
-
-    expect(methodIsNumber).toHaveBeenCalledTimes(1);
   });
 
   // Height
