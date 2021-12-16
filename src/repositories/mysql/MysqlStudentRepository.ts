@@ -6,7 +6,14 @@ import { ICreateStudentDTO } from "../../useCases/students/createStudent/ICreate
 
 class MysqlStudentRepository implements IStudentRepository {
   async save(student: ICreateStudentDTO): Promise<IStudentsAttributes> {
-    return (await Student.create(student)).get();
+    await Student.create(student);
+
+    const studentCreated = await Student.findOne({
+      where: { email: student.email },
+      include: { association: "profile_picture" },
+    });
+
+    return studentCreated!.get();
   }
 
   async existsEmail(email: string): Promise<IStudentsAttributes | null> {
@@ -59,9 +66,13 @@ class MysqlStudentRepository implements IStudentRepository {
     id: number | string,
   ): Promise<IStudentsAttributes> {
     await Student.update(student, { where: { id } });
-    return await Student.findOne({ where: { id } }).then((student) => {
-      return student?.get() as IStudentsAttributes;
+
+    const studentCreated = await Student.findOne({
+      where: { id },
+      include: { association: "profile_picture" },
     });
+
+    return studentCreated!.get();
   }
 }
 
