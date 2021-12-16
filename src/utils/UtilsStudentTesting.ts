@@ -1,10 +1,7 @@
-import { connectionMongoDB } from "../database/ConnectionMongoDB";
 import { IStudentsAttributes } from "../models/IStudentsAttributes";
 import { MongoDbStudents } from "../models/mongoDb/MongoDbStudent";
 import { MongoDbProfilePicture } from "../models/mongoDb/MongoDbProfilePictures";
 import { IStudentRepository } from "../repositories/IstudentRepository";
-import { MongoDbStudentRepository } from "../repositories/mongoDb/MongoDbStudentRepository";
-// import { MysqlStudentRepository } from "../repositories/mysql/MysqlStudentRepository";
 import { CreateStudent } from "../useCases/students/createStudent/CreateStudent";
 import { ICreateStudent } from "../useCases/students/createStudent/ICreateStudent";
 import { ICreateStudentDTO } from "../useCases/students/createStudent/ICreateStudentDTO";
@@ -13,17 +10,15 @@ import { StudentUpdateValidations } from "../useCases/students/UpdateStudent/val
 import { StudentCreateValidation } from "../useCases/students/createStudent/validations/StudentCreateValidations";
 import { CreateProfilePicture } from "../useCases/profilePicture/CreateProfilePicture/CreateProfilePicture";
 import { S3StorageServiceProfilePicture } from "../providers/implementation/S3StorageServiceProfilePicture";
-import { MongoDbProfilePictureRepository } from "../repositories/mongoDb/MongoDbProfilePictureRepository";
 import { UpdateProfilePicture } from "../useCases/profilePicture/updateProfilePicture/UpdateProfilePicture";
 import { DeleteProfilePicture } from "../useCases/profilePicture/deleteProfilePicture/DeleteProfilePicture";
 import { IProfilePictureAttributes } from "../models/IProfilePictureAttributes";
 import { IProfilePictureRepository } from "../repositories/IProfilePictureRepository";
-
-connectionMongoDB;
+import { studentRepository, profilePictureRepository } from "./chooseApplicationDatabase";
+import { Student } from "../models/mysql/StudentsModel";
+import { ProfilePicture } from "../models/mysql/ProfilePicture";
 
 class UtilsStudentTesting {
-  public userRepositoryMongoDb = new MongoDbStudentRepository();
-  // public userRepositoryMySQL = new MysqlStudentRepository();
   public data: ICreateStudentDTO = {
     email: "jubileu@gmail.com",
     name: "Jubis",
@@ -40,17 +35,16 @@ class UtilsStudentTesting {
   );
   public studentUpdateValidations = new StudentUpdateValidations();
   public storageServiceProfilePicture = new S3StorageServiceProfilePicture();
-  public profilePictureRepository = new MongoDbProfilePictureRepository();
   public updateProfilePicture = new UpdateProfilePicture(
-    this.profilePictureRepository,
+    profilePictureRepository(),
     this.storageServiceProfilePicture,
   );
   public createProfilePicture = new CreateProfilePicture(
-    this.profilePictureRepository,
+    profilePictureRepository(),
     this.storageServiceProfilePicture,
   );
   public deleteProfilePicture = new DeleteProfilePicture(
-    this.profilePictureRepository,
+    profilePictureRepository(),
     this.storageServiceProfilePicture,
   );
   public picture: Omit<Express.Multer.File, "stream" | "buffer"> = {
@@ -82,24 +76,25 @@ class UtilsStudentTesting {
   async deleteStudentData(): Promise<void> {
     await MongoDbStudents.deleteMany({});
     await MongoDbProfilePicture.deleteMany({});
-    // await Student.destroy({ where: {}, truncate: true });
+    await Student.destroy({ where: {} });
+    await ProfilePicture.destroy({ where: {}, truncate: true });
     await this.storageServiceProfilePicture.deleteFile("test_picture.jpg");
   }
 
   async getProfilePictureCreated(
     id: number | string,
   ): Promise<IProfilePictureAttributes> {
-    return (await this.profilePictureRepository.existsProfilePicture(
+    return (await profilePictureRepository().existsProfilePicture(
       id,
     )) as IProfilePictureAttributes;
   }
 
   getRepository(): IStudentRepository {
-    return this.userRepositoryMongoDb;
+    return studentRepository();
   }
 
   getProfilePictureRepository(): IProfilePictureRepository {
-    return this.profilePictureRepository;
+    return profilePictureRepository();
   }
 }
 
