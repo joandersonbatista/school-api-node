@@ -14,7 +14,10 @@ import { UpdateProfilePicture } from "../useCases/profilePicture/updateProfilePi
 import { DeleteProfilePicture } from "../useCases/profilePicture/deleteProfilePicture/DeleteProfilePicture";
 import { IProfilePictureAttributes } from "../models/IProfilePictureAttributes";
 import { IProfilePictureRepository } from "../repositories/IProfilePictureRepository";
-import { studentRepository, profilePictureRepository } from "./chooseApplicationDatabase";
+import {
+  studentRepository,
+  profilePictureRepository,
+} from "./chooseApplicationDatabase";
 import { Student } from "../models/mysql/StudentsModel";
 import { ProfilePicture } from "../models/mysql/ProfilePicture";
 
@@ -87,6 +90,10 @@ class UtilsStudentTesting {
     return (await profilePictureRepository().existsProfilePicture(
       id,
     )) as IProfilePictureAttributes;
+  }
+
+  async deleteProfilePictureData(): Promise<void> {
+    await ProfilePicture.destroy({ where: {}, truncate: true });
   }
 
   getRepository(): IStudentRepository {

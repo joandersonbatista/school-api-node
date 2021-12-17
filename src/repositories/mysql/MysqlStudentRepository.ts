@@ -23,7 +23,12 @@ class MysqlStudentRepository implements IStudentRepository {
 
     if (existsEmail === null) return null;
 
-    return existsEmail.get();
+    const studentEmail = await Student.findOne({
+      where: { email },
+      include: { association: "profile_picture" },
+    });
+
+    return studentEmail!.get();
   }
 
   async delete(id: number): Promise<void> {
@@ -35,7 +40,12 @@ class MysqlStudentRepository implements IStudentRepository {
 
     if (existsId === null) return null;
 
-    return existsId.get();
+    const studentId = await Student.findOne({
+      where: { id },
+      include: { association: "profile_picture" },
+    });
+
+    return studentId!.get();
   }
 
   async read(id?: number): Promise<IStudentsAttributes[]> {

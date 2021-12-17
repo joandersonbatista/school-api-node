@@ -8,7 +8,13 @@ class MysqlProfilePictureRepository implements IProfilePictureRepository {
   async save(
     picture: ICreateProfilePictureDTO,
   ): Promise<IProfilePictureAttributes> {
-    return (await ProfilePicture.create(picture)).get();
+    await ProfilePicture.create(picture);
+
+    const studentCreated = await ProfilePicture.findOne({
+      where: { student_id: picture.student_id },
+    });
+
+    return studentCreated!.get();
   }
 
   async update(
