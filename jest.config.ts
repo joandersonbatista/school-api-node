@@ -4,7 +4,10 @@
  */
 
 export default {
-  setupFilesAfterEnv: ["jest-extended/all"],
+  setupFilesAfterEnv: [
+    "jest-extended/all",
+    "<rootDir>/src/config/jest.setup.ts",
+  ],
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
