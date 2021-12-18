@@ -94,6 +94,7 @@ class UtilsStudentTesting {
 
   async deleteProfilePictureData(): Promise<void> {
     await ProfilePicture.destroy({ where: {}, truncate: true });
+    await MongoDbProfilePicture.deleteMany({});
   }
 
   getRepository(): IStudentRepository {

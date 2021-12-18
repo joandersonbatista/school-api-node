@@ -9,12 +9,12 @@ class MongoDbUserRepository implements IUserRepository {
     return await MongoDbUser.create(user);
   }
 
-  async update(user: IUpdateUserDTO, id: number | string): Promise<void> {
+  async update(user: IUpdateUserDTO, id: string): Promise<void> {
     await MongoDbUser.updateOne({ id }, user);
   }
 
   async existsUserToken(
-    id: number,
+    id: string,
     email: string,
   ): Promise<IUsersAttributes | null> {
     const user = await MongoDbUser.findOne({ id, email });
@@ -32,11 +32,11 @@ class MongoDbUserRepository implements IUserRepository {
     return user;
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     await MongoDbUser.deleteOne({ id });
   }
 
-  async existsId(id: number): Promise<IUsersAttributes | null> {
+  async existsId(id: string): Promise<IUsersAttributes | null> {
     const user = await MongoDbUser.findOne({ id });
 
     if (user === null) return null;
@@ -44,7 +44,7 @@ class MongoDbUserRepository implements IUserRepository {
     return user;
   }
 
-  async read(id: number | string): Promise<IUsersAttributes[]> {
+  async read(id: string): Promise<IUsersAttributes[]> {
     const user = await MongoDbUser.findOne({ id });
 
     return new Array(user!);

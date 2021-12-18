@@ -11,7 +11,7 @@ class MongoDbStudentRepository implements IStudentRepository {
 
   async update(
     student: IUpdateStudentDTO,
-    id: number | string,
+    id: string,
   ): Promise<IStudentsAttributes> {
     const studentUpdate = await MongoDbStudents.updateOne(
       { id },
@@ -24,11 +24,11 @@ class MongoDbStudentRepository implements IStudentRepository {
     return await MongoDbStudents.findOne({ email });
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     await MongoDbStudents.deleteOne({ id });
   }
 
-  async existsId(id: number): Promise<IStudentsAttributes | null> {
+  async existsId(id: string): Promise<IStudentsAttributes | null> {
     const student = await MongoDbStudents.findOne({ id });
 
     if (student === null) return null;
@@ -36,7 +36,7 @@ class MongoDbStudentRepository implements IStudentRepository {
     return student;
   }
 
-  async read(id?: number | string): Promise<IStudentsAttributes[]> {
+  async read(id?: string): Promise<IStudentsAttributes[]> {
     if (id === undefined) {
       const findStudents = await MongoDbStudents.find().populate(
         "profile_picture",
